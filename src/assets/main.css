@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+:root {
+  --background: #101010;
+  --foreground: #fff;
+}
+
+@theme inline {
+  --color-background: var(--background) --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(root) {
+  z-index: auto;
+}
+
+::view-transition-image-pair {
+  isolation: isolate;
+  will-change: opacity, scale, clip-path, filter;
+  z-index: 1;
+}
+
+@keyframes ScaleOutWithBlur {
+  from {
+    opacity: 1;
+    scale: 1;
+    filter: blur(0px);
+  }
+  to {
+    opacity: 0.68;
+    scale: 0.68;
+    filter: blur(24px);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+  to {
+    clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
+  }
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation-name: ScaleOutWithBlur;
+  animation-duration: 1500ms;
+  animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+  animation-fill-mode: forwards;
+}
+
+::view-transition-new(root) {
+  z-index: 1000;
+  animation-name: slideIn;
+  animation-duration: 3000ms;
+  animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+  animation-fill-mode: forwards;
+}
